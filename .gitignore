@@ -1,0 +1,4 @@
+# 构建产物（bun build.ts 生成，克隆后自行构建）
+dist/
+# 依赖（本包无依赖，防未来引入时误提交）
+node_modules/

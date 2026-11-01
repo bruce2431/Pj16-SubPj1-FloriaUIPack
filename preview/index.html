@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>@floria/web 预览</title>
+  <script>
+    (function () {
+      var t = null
+      try { t = localStorage.getItem('floria-theme') } catch (e) {}
+      var dark = t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      if (dark) document.documentElement.setAttribute('data-theme', 'dark')
+    })()
+  </script>
+  <link rel="stylesheet" href="../dist/floria-web.css" />
+  <style>
+    body { background: var(--plane); color: var(--text); font: 14px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; padding: 24px; }
+    h1 { font-size: 18px; margin-bottom: 4px; }
+    p.sub { color: var(--ink-3); margin-bottom: 20px; }
+    h2 { font-size: 13px; color: var(--ink-2); margin: 22px 0 10px; font-weight: 600; }
+    .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+    .sw { background: var(--bg); border: 1px solid var(--border-soft); border-radius: 8px; overflow: hidden; }
+    .sw i { display: block; height: 38px; }
+    .sw code { display: block; padding: 5px 7px; font: 11px/1.4 var(--mono); color: var(--ink-3); }
+    .icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); gap: 8px; }
+    .ic { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 9px 4px; border-radius: 8px; color: var(--ink); }
+    .ic:hover { background: var(--hover); }
+    .ic svg { width: 18px; height: 18px; }
+    .ic span { font: 10px/1.2 var(--mono); color: var(--ink-3); }
+    button { font: inherit; color: var(--ink); background: var(--field-3); border: 1px solid var(--hairline); border-radius: 8px; padding: 5px 12px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>@floria/web</h1>
+  <p class="sub">UI 基础包预览：主题令牌 / 基础样式 / 图标表。<span id="ver"></span></p>
+  <button id="toggle">切换日夜</button>
+
+  <h2>主题令牌</h2>
+  <div class="card"><div class="swatches" id="swatches"></div></div>
+
+  <h2>图标表 I</h2>
+  <div class="card"><div class="icons" id="icons"></div></div>
+
+  <h2>文件类型徽标 fileIcon</h2>
+  <div class="card"><div class="icons" id="files"></div></div>
+
+  <script src="../dist/floria-web.iife.js"></script>
+  <script>
+    var FW = window.FloriaWeb
+    if (!FW) throw new Error('@floria/web IIFE 未加载')
+    document.getElementById('ver').textContent = 'v' + FW.VERSION
+
+    var tokens = ['--bg', '--chat-bg', '--rail-bg', '--plane', '--border', '--text', '--text-2', '--text-3',
+      '--hover', '--active', '--selected', '--float-bg', '--blue', '--ink', '--ink-2', '--field-2', '--field-3',
+      '--warn-bg', '--ok-soft', '--danger-soft', '--hl-kw', '--hl-str', '--hl-num']
+    document.getElementById('swatches').innerHTML = tokens.map(function (t) {
+      return '<div class="sw"><i style="background:var(' + t + ')"></i><code>' + t + '</code></div>'
+    }).join('')
+
+    document.getElementById('icons').innerHTML = Object.keys(FW.I).map(function (k) {
+      return '<div class="ic" title="' + FW.esc(k) + '">' + FW.I[k] + '<span>' + FW.esc(k) + '</span></div>'
+    }).join('')
+
+    document.getElementById('files').innerHTML = ['a.pdf', 'a.docx', 'a.xlsx', 'a.pptx', 'a.md', 'a.ts', 'a.png', 'a.zip', 'a.mp4', 'a.unknownext']
+      .map(function (n) {
+        return '<div class="ic" title="' + FW.esc(n) + '">' + FW.fileIcon(n) + '<span>' + FW.esc(n.replace(/^a\./, '')) + '</span></div>'
+      }).join('')
+
+    document.getElementById('toggle').onclick = function () {
+      var root = document.documentElement
+      var dark = root.getAttribute('data-theme') !== 'dark'
+      if (dark) root.setAttribute('data-theme', 'dark'); else root.removeAttribute('data-theme')
+      try { localStorage.setItem('floria-theme', dark ? 'dark' : 'light') } catch (e) {}
+    }
+  </script>
+</body>
+</html>

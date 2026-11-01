@@ -1,0 +1,20 @@
+{
+  "name": "@floria/web",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Floria 的网页 UI 基础包：主题令牌、全局基础样式、图标与通用 DOM 工具，以及管理页通用 UI 组件族（mgr）。产物可由 Floria 以 classic script + link 直接加载（IIFE/CSS），业务模块仍留在 Floria web-src。",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./theme.css": "./dist/floria-web.css",
+    "./src/*": "./src/*"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "bun build.ts"
+  }
+}
