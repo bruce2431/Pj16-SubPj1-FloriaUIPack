@@ -92,44 +92,40 @@
     web: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M7 9l2.5 2.5L7 14"/><path d="M12.5 14h4"/></svg>',
   }
 
-  // ---------- 文件类型徽标（2026-10-22） ----------
+  // ---------- 文件类型图标（描线族） ----------
   // 用途：附件胶囊（#img-pills .file-pill）、消息文件卡片（.msg-file）、引用胶囊（.mc-ic）、
-  // work 工具栏文件胶囊（.wk-tb-ico）。形 = 16 视框圆角方块 + 白色类型缩写，色取该格式的
-  // 通用联想色（PDF 红 / Word 蓝 / Excel 绿 / PPT 橙），小尺寸（12–20px）下仍可辨。
-  // 未知扩展名回落中性文档页形（currentColor，随主题明暗）。
-  const FILE_BADGE = {
-    pdf: ['PDF', '#e5484d'],
-    doc: ['W', '#2b6cb0'], docx: ['W', '#2b6cb0'], rtf: ['W', '#2b6cb0'], odt: ['W', '#2b6cb0'],
-    xls: ['X', '#2f855a'], xlsx: ['X', '#2f855a'], csv: ['X', '#2f855a'], ods: ['X', '#2f855a'],
-    ppt: ['P', '#dd6b20'], pptx: ['P', '#dd6b20'], odp: ['P', '#dd6b20'],
-    md: ['M', '#64748b'], markdown: ['M', '#64748b'],
-    txt: ['T', '#64748b'], log: ['T', '#64748b'],
-    js: ['{}', '#7c5cff'], mjs: ['{}', '#7c5cff'], cjs: ['{}', '#7c5cff'], ts: ['{}', '#7c5cff'],
-    tsx: ['{}', '#7c5cff'], jsx: ['{}', '#7c5cff'], py: ['{}', '#7c5cff'], go: ['{}', '#7c5cff'],
-    rs: ['{}', '#7c5cff'], java: ['{}', '#7c5cff'], c: ['{}', '#7c5cff'], h: ['{}', '#7c5cff'],
-    cpp: ['{}', '#7c5cff'], sh: ['{}', '#7c5cff'], bash: ['{}', '#7c5cff'], html: ['{}', '#7c5cff'],
-    css: ['{}', '#7c5cff'], json: ['{}', '#7c5cff'], yml: ['{}', '#7c5cff'], yaml: ['{}', '#7c5cff'],
-    toml: ['{}', '#7c5cff'],
-    png: ['IMG', '#0e7490'], jpg: ['IMG', '#0e7490'], jpeg: ['IMG', '#0e7490'], webp: ['IMG', '#0e7490'],
-    gif: ['IMG', '#0e7490'], svg: ['IMG', '#0e7490'],
-    zip: ['Z', '#a16207'], rar: ['Z', '#a16207'], '7z': ['Z', '#a16207'], tar: ['Z', '#a16207'],
-    gz: ['Z', '#a16207'],
-    mp3: ['♪', '#be185d'], wav: ['♪', '#be185d'], m4a: ['♪', '#be185d'], flac: ['♪', '#be185d'],
-    mp4: ['▶', '#9333ea'], mov: ['▶', '#9333ea'], mkv: ['▶', '#9333ea'], webm: ['▶', '#9333ea'],
+  // work 工具栏文件胶囊（.wk-tb-ico）。形 = 16 视框文档页轮廓，stroke=currentColor；
+  // 类型色只染描边，不写类型缩写——文件名已带扩展名，13px 下塞字会糊成实心块。
+  // md/txt 与未知扩展名不染色，随胶囊/正文色（@ 提及 chip 里即主题蓝）。
+  const FILE_TINT = {
+    pdf: '#e5484d',
+    doc: '#4a90d9', docx: '#4a90d9', rtf: '#4a90d9', odt: '#4a90d9',
+    xls: '#35a06b', xlsx: '#35a06b', csv: '#35a06b', ods: '#35a06b',
+    ppt: '#e0823a', pptx: '#e0823a', odp: '#e0823a',
+    js: '#8b7bff', mjs: '#8b7bff', cjs: '#8b7bff', ts: '#8b7bff',
+    tsx: '#8b7bff', jsx: '#8b7bff', py: '#8b7bff', go: '#8b7bff',
+    rs: '#8b7bff', java: '#8b7bff', c: '#8b7bff', h: '#8b7bff',
+    cpp: '#8b7bff', sh: '#8b7bff', bash: '#8b7bff', html: '#8b7bff',
+    css: '#8b7bff', json: '#8b7bff', yml: '#8b7bff', yaml: '#8b7bff',
+    toml: '#8b7bff',
+    png: '#2bb3c7', jpg: '#2bb3c7', jpeg: '#2bb3c7', webp: '#2bb3c7',
+    gif: '#2bb3c7', svg: '#2bb3c7',
+    zip: '#b8873f', rar: '#b8873f', '7z': '#b8873f', tar: '#b8873f',
+    gz: '#b8873f',
+    mp3: '#d6488f', wav: '#d6488f', m4a: '#d6488f', flac: '#d6488f',
+    mp4: '#a05ce0', mov: '#a05ce0', mkv: '#a05ce0', webm: '#a05ce0',
   }
-  const FILE_UNKNOWN_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1"><path d="M4.5 1.5h4.6L13 5.4v9.1a1 1 0 0 1-1 1H4.5a1 1 0 0 1-1-1V2.5a1 1 0 0 1 1-1z" stroke-linejoin="round"/><path d="M9 1.7v3.7h3.8"/></svg>'
+  const FILE_PAGE = '<path d="M4.6 1.8h4.5l3.3 3.3v9a1 1 0 0 1-1 1H4.6a1 1 0 0 1-1-1V2.8a1 1 0 0 1 1-1z"/><path d="M9 2v3.4h3.4"/>'
   function fileExt(name) {
     const base = String(name == null ? '' : name).replace(/[\\/]+$/, '').split(/[\\/]/).pop() || ''
     const i = base.lastIndexOf('.')
     return i > 0 ? base.slice(i + 1).toLowerCase() : ''
   }
-  // name 只用于取扩展名查表，不参与拼接（无注入面）；label/color 均来自常量表。
+  // name 只用于取扩展名查表，不参与拼接（无注入面）；tint 来自常量表，未命中则不染色。
   function fileIcon(name) {
-    const hit = FILE_BADGE[fileExt(name)]
-    if (!hit) return FILE_UNKNOWN_ICON
-    const [label, color] = hit
-    const size = label.length > 2 ? 4.4 : label.length > 1 ? 5.6 : 7.6
-    return `<svg class="file-ic" viewBox="0 0 16 16" aria-hidden="true"><rect x="1" y="1" width="14" height="14" rx="3.2" fill="${color}"/><text x="8" y="11.35" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="${size}" font-weight="700" fill="#fff">${label}</text></svg>`
+    const tint = FILE_TINT[fileExt(name)]
+    const style = tint ? ` style="color:${tint}"` : ''
+    return `<svg class="file-ic" viewBox="3.05 1.25 9.9 14.4" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linejoin="round" aria-hidden="true"${style}>${FILE_PAGE}</svg>`
   }
 
 export {

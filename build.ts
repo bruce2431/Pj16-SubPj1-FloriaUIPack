@@ -52,6 +52,12 @@ if (!mgrCss.includes('.mgr-card ') || !mgrCss.includes('.mgr-detail ')) {
   console.error('[build] mgr.css 缺少 .mgr-card/.mgr-detail')
   process.exit(1)
 }
-const css = `${theme}\n\n${mgrCss}`
+// 交付卡 / 文件变更卡（delivery.js 配套）：同文件发布，消费方只引 floria-web.css 一件。
+const deliveryCss = await Bun.file(`${root}/src/delivery.css`).text()
+if (!deliveryCss.includes('.dlv-file ') || !deliveryCss.includes('.chg-row ')) {
+  console.error('[build] delivery.css 缺少 .dlv-file/.chg-row')
+  process.exit(1)
+}
+const css = `${theme}\n\n${mgrCss}\n\n${deliveryCss}`
 await Bun.write(`${root}/dist/floria-web.css`, css)
 console.log(`[build] dist/floria-web.css ${(css.length / 1024).toFixed(1)} KB`)
